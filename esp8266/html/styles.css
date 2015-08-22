@@ -1,0 +1,69 @@
+body {
+	background:#333;
+	color:#5d5;
+	font-family:Arial;
+	margin:0;
+	text-align:center;
+	margin-bottom:5vw;
+}
+
+#heading {
+	font-size:20vw;
+	text-align:center;
+	font-weight:bold;
+	margin-bottom:2vw;
+}
+
+.menubutton {
+	display:inline-block;
+	width:85vw;
+	margin:0 auto;
+	border:3px solid #aaa;
+	font-size:12vw;
+	margin-bottom:2vw;
+	padding:3vw;
+	text-align:center;
+	cursor:pointer;
+}
+
+.menubutton:hover {
+	background:#000;
+}
+
+.new_opentime {
+	display:inline-block;
+	width:91vw;
+	border:3px solid #aaa;
+	font-size:9vw;
+	text-align:center;
+	padding-top:3vw;
+	margin-bottom:2vw;
+}
+
+.new_opentime input[type="text"] {
+	background:transparent;
+	border:3px solid #aaa;
+	width:30vw;
+	padding:1vw;
+	color:#fff;
+	font-size:6vw;
+	margin:3vw 1vw;
+	text-align:center;
+}
+
+.new_opentime input[type="text"]:focus {
+	background:rgba(255, 255, 255, 0.8);
+	color:#000;
+}
+
+.new_opentime #set_opentime_button {
+	font-size:12vw;
+	width:calc(100% - 4vw);
+	border-top:2px solid #aaa;
+	padding:2vw;
+	cursor:pointer;
+}
+
+.new_opentime #set_opentime_button:hover {
+	background:#000;
+}

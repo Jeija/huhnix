@@ -1,0 +1,8 @@
+*~
+/hardware/*.bak
+/hardware/huhnix-cache.lib
+/avr/build
+/avr/obj
+/esp8266/build
+/esp8266/firmware
+/esp8266/build

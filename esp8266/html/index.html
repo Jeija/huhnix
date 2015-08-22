@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>Hühnerstall</title>
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<script src="scripts.js"></script>
+	<meta charset="utf-8">
+</head>
+<body>
+	<div id="heading">Huhnix!</div>
+	<div class="menubutton" onclick="api_action('slider_up')">Klappe rauf</div>
+	<div class="menubutton" onclick="api_action('slider_down')">Klappe runter</div>
+	<div class="menubutton" onclick="api_action('systime_get', api_message)">Systemzeit</div>
+	<div class="menubutton" onclick="api_action('battery_get', api_message)">Batteriestand</div>
+	<div class="menubutton" onclick="api_action('opentime_get', api_message)">Aufmachzeit</div>
+	<div class="new_opentime">
+		Neue Aufmachzeit
+		<input type="text" placeholder="Stunden" id="opentime_hours" />:<input placeholder="Minuten" type="text" id="opentime_minutes" />
+		<div id="set_opentime_button" onclick="set_opentime()">Setzen</div>
+	</div>
+	<div class="menubutton" onclick="api_set_opentime(25, 0)">Nie aufmachen</div>
+	<div class="menubutton" onclick="api_action('dcf_info', api_message)">DCF77 Info</div>
+</body>
+</html>
