@@ -16,19 +16,21 @@
 // true = up, false = down
 SliderPos slider_state = SLIDER_DOWN;
 SliderPos slider_wanted = SLIDER_UP;
-uint64_t slider_down_begin_timestamp;
-uint64_t slider_up_begin_timestamp;
 
 // Command answer buffer
 #define ANS_BUF_SIZE 30
 char ans_buf[ANS_BUF_SIZE] = {0x00};
 
 // Timing
+#define BEGIN_TIMESTAMP 0
 bool time_correct = false;
 struct TimeSpec time;
-uint64_t timestamp = 0;
-uint64_t last_timesync_timestamp = 0;
-uint64_t wakeup_timestamp = 0;
+uint64_t timestamp = BEGIN_TIMESTAMP;
+uint64_t last_timesync_timestamp = BEGIN_TIMESTAMP;
+uint64_t wakeup_timestamp = BEGIN_TIMESTAMP;
+
+uint64_t slider_down_begin_timestamp = BEGIN_TIMESTAMP;
+uint64_t slider_up_begin_timestamp = BEGIN_TIMESTAMP;
 
 // Action flags
 bool action_updtime = false;
@@ -231,9 +233,9 @@ void startup() {
 
 	// Play startup sound
 	uart_puts("Huhnix started!\r\n");
-	sound(4, 100);
+	sound(3, 100);
 	_delay_ms(30);
-	sound(4, 100);
+	sound(3, 100);
 }
 
 

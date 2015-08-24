@@ -60,5 +60,5 @@
 #define SLIDER_UP_TIME_MAX 25
 #define TIME_UPDATE_INTERVAL 10
 #define TIME_UPDATE_MAXAGE 20
-#define TIME_UPDATE_WARN_AGE ((uint16_t)3600 * 24 * 7)
+#define TIME_UPDATE_WARN_AGE ((uint64_t)3600 * 24 * 7)
 #define MAX_WAKE_TIME (60 * 6)
