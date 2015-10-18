@@ -48,3 +48,9 @@ function set_opentime() {
 		alert("Ungültige Zeit!");
 	else api_set_opentime(hours, minutes);
 }
+
+function set_systime() {
+	var d = new Date();
+	var params = "?seconds=" + d.getSeconds() + "&minutes=" + d.getMinutes() + "&hours=" + d.getHours() + "&date=" + d.getDate() + "&month=" + d.getMonth() + "&year=" + d.getFullYear() % 1000 + "&dow=" + (d.getDay() == 0 ? 7 : d.getDay());
+	api_action("systime_set" + params, api_okmessage);
+}

@@ -4,7 +4,7 @@ BUILD_BASE	= build
 FW_BASE		= firmware
 
 XTENSA_TOOLS_ROOT ?= /opt/esp-open-sdk/xtensa-lx106-elf/bin
-SDK_BASE	?= /opt/esp-open-sdk/esp_iot_sdk_v1.2.0
+SDK_BASE	?= /opt/esp-open-sdk/esp_iot_sdk_v1.4.0
 ESPTOOL		?= esptool.py
 ESPPORT		?= /dev/ttyUSB0
 ESPDELAY	?= 3

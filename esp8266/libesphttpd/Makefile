@@ -11,7 +11,7 @@ GZIP_COMPRESSION ?= no
 COMPRESS_W_YUI ?= no
 YUI-COMPRESSOR ?= /usr/bin/yui-compressor
 USE_HEATSHRINK ?= yes
-
+HTTPD_WEBSOCKETS ?= yes
 
 
 # Output directors to store intermediate compiled files
@@ -20,10 +20,10 @@ BUILD_BASE	= build
 
 # Base directory for the compiler. Needs a / at the end; if not set it'll use the tools that are in
 # the PATH.
-XTENSA_TOOLS_ROOT ?= /opt/esp-open-sdk/xtensa-lx106-elf/bin
+XTENSA_TOOLS_ROOT ?= 
 
 # base directory of the ESP8266 SDK package, absolute
-SDK_BASE	?= /opt/esp-open-sdk/esp_iot_sdk_v1.2.0
+SDK_BASE	?= /opt/esp-open-sdk/esp_iot_sdk_v1.4.0
 
 # name for the target project
 LIB		= libesphttpd.a
@@ -36,7 +36,9 @@ EXTRA_INCDIR	= ./include \
 
 
 # compiler flags using during compilation of source files
-CFLAGS		= -Os -ggdb -std=c99 -Werror -Wpointer-arith -Wundef -Wall -Wl,-EL -fno-inline-functions -nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH
+CFLAGS		= -Os -ggdb -std=c99 -Werror -Wpointer-arith -Wundef -Wall -Wl,-EL -fno-inline-functions \
+		-nostdlib -mlongcalls -mtext-section-literals  -D__ets__ -DICACHE_FLASH -D_STDINT_H \
+		-Wno-address
 
 # various paths from the SDK used in this project
 SDK_LIBDIR	= lib
@@ -44,10 +46,10 @@ SDK_LDDIR	= ld
 SDK_INCDIR	= include
 
 # select which tools to use as compiler, librarian and linker
-CC		:= $(XTENSA_TOOLS_ROOT)/xtensa-lx106-elf-gcc
-AR		:= $(XTENSA_TOOLS_ROOT)/xtensa-lx106-elf-ar
-LD		:= $(XTENSA_TOOLS_ROOT)/xtensa-lx106-elf-gcc
-OBJCOPY	:= $(XTENSA_TOOLS_ROOT)/xtensa-lx106-elf-objcopy
+CC		:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-gcc
+AR		:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-ar
+LD		:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-gcc
+OBJCOPY	:= $(XTENSA_TOOLS_ROOT)xtensa-lx106-elf-objcopy
 
 ####
 #### no user configurable options below here
@@ -79,6 +81,10 @@ endif
 
 ifeq ("$(USE_HEATSHRINK)","yes")
 CFLAGS		+= -DESPFS_HEATSHRINK
+endif
+
+ifeq ("$(HTTPD_WEBSOCKETS)","yes")
+CFLAGS		+= -DHTTPD_WEBSOCKETS
 endif
 
 vpath %.c $(SRC_DIR)
@@ -118,7 +124,7 @@ ifeq ("$(COMPRESS_W_YUI)","yes")
 	$(Q) for file in `find html_compressed -type f -name "*.js"`; do $(YUI-COMPRESSOR) --type js $$file -o $$file; done
 	$(Q) for file in `find html_compressed -type f -name "*.css"`; do $(YUI-COMPRESSOR) --type css $$file -o $$file; done
 	$(Q) awk "BEGIN {printf \"YUI compression ratio was: %.2f%%\\n\", (`du -b -s html_compressed/ | sed 's/\([0-9]*\).*/\1/'`/`du -b -s ../html/ | sed 's/\([0-9]*\).*/\1/'`)*100}"
-# mkespfsimage will compress html, css and js files with gzip by default if enabled
+# mkespfsimage will compress html, css, svg and js files with gzip by default if enabled
 # override with -g cmdline parameter
 	$(Q) cd html_compressed; find . | $(THISDIR)/espfs/mkespfsimage/mkespfsimage > $(THISDIR)/webpages.espfs; cd ..;
 else
@@ -138,12 +144,11 @@ espfs/mkespfsimage/mkespfsimage: espfs/mkespfsimage/
 
 clean:
 	$(Q) rm -f $(LIB)
-	$(Q) find $(BUILD_BASE) -type f | xargs rm -f
+	$(Q) rm -rf build
 	$(Q) make -C espfs/mkespfsimage/ clean
 	$(Q) rm -rf $(FW_BASE)
 	$(Q) rm -f webpages.espfs
-ifeq ("$(COMPRESS_W_YUI)","yes")
+	$(Q) rm -f libwebpages-espfs.a
 	$(Q) rm -rf html_compressed
-endif
 
 $(foreach bdir,$(BUILD_DIR),$(eval $(call compile-objects,$(bdir))))

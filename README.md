@@ -12,7 +12,7 @@ Huhnix is software for an automatic slider door, such as a door for a hen house 
 The main processor receives inputs from two buttons that are used to make the doors slide up or down and keeps all the settings and keeps track of the time (so no need for a RTC).
 
 ### Secondary controller: ESP8266
-The ESP8266 provides a configuration interface by acting as an access point that mobile devices can connect to in order to access a simple web interface. This web interface can be used to access system information such as the system clock and battery levels. The ESP8266 (e.g. within an ESP-01 module) is only active, when the main processor wakes it up. That is the case, when any of the slider control buttons have been pressed. This is crucial to save limited battery power. The battery can be charged using a solar panel. The ESP8266 software is based on SDK version 1.2 from Espressif.
+The ESP8266 provides a configuration interface by acting as an access point that mobile devices can connect to in order to access a simple web interface. This web interface can be used to access system information such as the system clock and battery levels. The ESP8266 (e.g. within an ESP-01 module) is only active, when the main processor wakes it up. That is the case, when any of the slider control buttons have been pressed. This is crucial to save limited battery power. The battery can be charged using a solar panel. The ESP8266 software is based on the IoT SDK version 1.4 from Espressif.
 
 ### Controller communication protocol
 #### Definitions

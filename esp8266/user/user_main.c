@@ -367,6 +367,37 @@ int cmd_systime_get(HttpdConnData *conn) {
 	return HTTPD_CGI_DONE;
 }
 
+int cmd_systime_set(HttpdConnData *conn) {
+	// Parse command from GET parameters
+	char seconds_str[3];
+	char minutes_str[3];
+	char hours_str[3];
+	char date_str[3];
+	char month_str[3];
+	char year_str[3];
+	char dow_str[2];
+
+	httpdFindArg(conn->getArgs, "seconds", seconds_str, sizeof(seconds_str));
+	httpdFindArg(conn->getArgs, "minutes", minutes_str, sizeof(minutes_str));
+	httpdFindArg(conn->getArgs, "hours", hours_str, sizeof(hours_str));
+	httpdFindArg(conn->getArgs, "date", date_str, sizeof(date_str));
+	httpdFindArg(conn->getArgs, "month", month_str, sizeof(month_str));
+	httpdFindArg(conn->getArgs, "year", year_str, sizeof(year_str));
+	httpdFindArg(conn->getArgs, "dow", dow_str, sizeof(dow_str));
+
+	time.seconds = atoi(seconds_str);
+	time.minutes = atoi(minutes_str);
+	time.hours = atoi(hours_str);
+	time.date = atoi(date_str);
+	time.month = atoi(month_str);
+	time.year = atoi(year_str);
+	time.dow = atoi(dow_str);
+	time_valid = true;
+
+	httpdSend(conn, "ok", -1);
+	return HTTPD_CGI_DONE;
+}
+
 int cmd_battery_get(HttpdConnData *conn) {
 	uint8_t i;
 	for (i = 0; i < 4; i++) {
@@ -433,6 +464,7 @@ HttpdBuiltInUrl builtInUrls[] = {
 	{"/slider_down", cmd_slider_down, NULL},
 	{"/opentime_get", cmd_opentime_get, NULL},
 	{"/systime_get", cmd_systime_get, NULL},
+	{"/systime_set", cmd_systime_set, NULL},
 	{"/battery_get", cmd_battery_get, NULL},
 	{"/opentime_set", cmd_opentime_set, NULL},
 	{"/dcf_info", cmd_dcf_info, NULL},
